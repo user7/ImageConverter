@@ -1,5 +1,6 @@
 package com.gb.imageconverter
 
+import android.net.Uri
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType

@@ -1,7 +1,10 @@
 package com.gb.imageconverter
 
+import android.content.ContentResolver
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import com.gb.imageconverter.databinding.MainActivityBinding
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
@@ -15,13 +18,22 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         super.onCreate(savedInstanceState)
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.fileName.setOnClickListener { pickFile() }
+
+        binding.inputFile.setOnClickListener { runInputFilePicker() }
+        binding.outputFile.setOnClickListener { runOutputFilePicker() }
         binding.startButton.setOnClickListener { presenter.startPressed() }
         binding.cancelButton.setOnClickListener { presenter.cancelPressed() }
+        activityContentResolver = contentResolver
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activityContentResolver = null
     }
 
     override fun setVisibility(control: MainPresenter.Controls, visible: Boolean) {
         val view = when (control) {
+            MainPresenter.Controls.OUTPUT_FILE -> binding.outputFile
             MainPresenter.Controls.CONVERT_BUTTON -> binding.startButton
             MainPresenter.Controls.PROGRESS_BAR -> binding.progress
             MainPresenter.Controls.CANCEL_BUTTON -> binding.cancelButton
@@ -36,12 +48,33 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     }
 
     override fun resetFile() {
-        binding.fileName.text = ""
+        binding.inputFile.text = ""
     }
 
-    private fun pickFile() {
-        val file = "file:///1.jpg"
-        binding.fileName.text = file
-        presenter.filePicked(file)
+    private val pickInputFileLauncher =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
+            uri?.let {
+                binding.inputFile.text = uri.toString()
+                presenter.inputFilePicked(uri)
+            }
+        }
+
+    private fun runInputFilePicker() {
+        pickInputFileLauncher.launch(arrayOf("image/*"))
+    }
+
+    private val pickOutputFileLauncher =
+        registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri: Uri? ->
+            binding.outputFile.text = uri.toString()
+            presenter.outputFilePicked(uri)
+        }
+
+    private fun runOutputFilePicker() {
+        pickOutputFileLauncher.launch("out.png")
+    }
+
+    // хак для доступа к contentResolver из Presenter
+    companion object {
+        var activityContentResolver: ContentResolver? = null
     }
 }

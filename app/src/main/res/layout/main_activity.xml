@@ -7,15 +7,27 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/fileName"
+        android:id="@+id/inputFile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/standard_margin"
-        android:hint="@string/pick_file_hint"
-        app:layout_constraintBottom_toTopOf="@+id/startButton"
+        android:hint="@string/pick_input_hint"
+        app:layout_constraintBottom_toTopOf="@+id/outputFile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/outputFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/standard_margin"
+        android:hint="@string/pick_output_hint"
+        app:layout_constraintBottom_toTopOf="@+id/startButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputFile"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <com.google.android.material.button.MaterialButton
@@ -23,12 +35,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/standard_margin"
-        android:hint="@string/pick_file_hint"
+        android:hint="@string/pick_input_hint"
         android:text="@string/convert"
         app:layout_constraintBottom_toTopOf="@+id/progress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fileName"
+        app:layout_constraintTop_toBottomOf="@id/outputFile"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -36,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/standard_margin"
-        android:hint="@string/pick_file_hint"
+        android:hint="@string/pick_input_hint"
         app:layout_constraintBottom_toTopOf="@+id/cancelButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
