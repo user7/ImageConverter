@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Image Converter</string>
+    <string name="pick_input_hint">Tap to pick input file</string>
+    <string name="conversion_successful">Success, file converted!</string>
+    <string name="cancel">Cancel</string>
+    <string name="convert">Convert</string>
+    <string name="conversion_failed">Conversion failed!</string>
+    <string name="pick_output_hint">Tap to pick output file</string>
 </resources>
